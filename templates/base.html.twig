@@ -1,0 +1,16 @@
+<!-- templates/base.html.twig -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'partials/head.html.twig' %}
+    </head>
+    <body>
+        {% include 'partials/header.html.twig' %}
+    <div class="wrapper">
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        {% include 'partials/footer.html.twig' %}
+    </div>
+    </body>
+</html>

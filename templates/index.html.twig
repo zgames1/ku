@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <section class="banner">
+        <button class="button">
+            Grįžti
+        </button>
+        <div class="content">
+        <h1>Bakalauro studijos</h1>
+        <h4>Visame pasaulyje pripažįstami laipsniai ir diplomai</h4>
+        </div>
+    </section>
+    <section class="table">
+        <div class="item grid_2">
+            <h3>Specializacijos</h3>
+            <div class="description">
+                <p>siūlome 30 specializacijos kursų šiose srityse:</p>
+                <ul>
+                    <li>Pakrančių plėtra ir tvarus jūrų turizmas</li>
+                    <li>Mėlynoji ekonomika ir tvarus augimas</li>
+                </ul>
+                <p>Kiekvieno kurso apimtis 6 ECTS. Sėkmingai baigusieji penkis<br> kursus gaus tarptautinį specializacijos sertifikatą (30 ECTS).</p>
+            </div>
+        </div>
+
+        <div class="item grid_2">
+            <h3>Mikrokredencialai</h3>
+            <div class="description">
+                <p>Siūlome trumpas mokymosi patirtis su galimybėmis įgyti<br> papildomų žinių apie išmanių pakrančių miestų tvarią plėtrą.</p>
+            </div>
+        </div>
+
+        <div class="item grid_2">
+            <h3>Iššūkių projektai</h3>
+            <div class="description">
+                <p>Asocijuoti Aljanso partneriai (miestų ir uostų administracijos,<br> verslo įmonės) siūlo iššūkių projektus, skirtus studijų krypties<br> arba papildomai  patirčiai įgyti.</p>
+            </div>
+        </div>
+    </section>
+    <section class="pt8em">
+        <h3>EU-CONEXUS alijanso teikiamos naudos</h3>
+
+        <div id="variant-carousel" class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-item"><img src="../assets/images/handshake.svg" alt=""><p>Tarptautiniai darbo pasiūlymai ir stažuotės</p></div>
+                <div class="carousel-item"><img src="../assets/images/money.svg" alt=""><p>Grantai, stipendijos ir studentų projektų finansavimas</p></div>
+                <div class="carousel-item"><img src="../assets/images/achievment.svg" alt=""><p>Inovacijų konkursai</p></div>
+                <div class="carousel-item"><img src="../assets/images/board.svg" alt=""><p>„Atviros laboratorijos valandos“</p></div>
+                <div class="carousel-item"><img width="80px" height="80px" src="../assets/images/information.png" alt=""><p>Tarpdalykinės / daugiadalykinės žinios ir lanksčios studijų programo</p></div>
+                <div class="carousel-item"><img width="80px" height="80px" src="../assets/images/sprendimai.png" alt=""><p>Globalių socialinių ir aplinkosaugos iššūkių sprendimai</p></div>
+                <div class="carousel-item"><img width="80px" height="80px" src="../assets/images/map.png" alt=""><p>Tarptautinis studentų miestelis</p></div>
+                <div class="carousel-item"><img width="80px" height="80px" src="../assets/images/pallet.png" alt=""><p>Kultūrinė ir meninė veikla</p></div>
+            </div>
+        </div>
+
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const carousel = document.querySelector(".carousel");
+            const items = document.querySelectorAll(".carousel-item");
+
+            // Clone items to create the infinite scroll effect
+            items.forEach(item => {
+                const clone = item.cloneNode(true);
+                carousel.appendChild(clone);
+            });
+
+            let scrollPosition = 0;
+            const scrollSpeed = 0.5;
+            let isScrolling = true;
+
+            // Auto-scroll function
+            function autoScroll() {
+                if (isScrolling) {
+                    scrollPosition += scrollSpeed;
+                    carousel.scrollLeft = scrollPosition;
+
+                    // Reset scroll position when reaching the end
+                    if (scrollPosition >= carousel.scrollWidth / 2) {
+                        scrollPosition = 0;
+                        carousel.scrollLeft = 0;
+                    }
+                }
+                requestAnimationFrame(autoScroll);
+            }
+
+            // Start auto-scroll
+            autoScroll();
+
+            // Event listeners to stop and resume auto-scrolling on hover
+            carousel.addEventListener("mouseenter", () => {
+                isScrolling = false;
+            });
+
+            carousel.addEventListener("mouseleave", () => {
+                isScrolling = true;
+            });
+
+            // Variables for dragging functionality
+            let isDragging = false;
+            let startX;
+            let scrollLeft;
+
+            // Mouse down event to initiate drag
+            carousel.addEventListener("mousedown", (e) => {
+                isDragging = true;
+                isScrolling = false; // Stop auto-scroll during drag
+                startX = e.pageX - carousel.offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+                carousel.classList.add("dragging"); // Prevent selection while dragging
+            });
+
+            // Mouse move event to handle dragging with infinite scroll
+            carousel.addEventListener("mousemove", (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - carousel.offsetLeft;
+                const walk = (x - startX) * 2; // Multiplier for faster scroll
+                carousel.scrollLeft = scrollLeft - walk;
+
+                // Infinite scroll effect for drag
+                if (carousel.scrollLeft <= 0) {
+                    carousel.scrollLeft = carousel.scrollWidth / 2; // Jump to the middle
+                    scrollLeft = carousel.scrollLeft - walk; // Adjust `scrollLeft` for smooth dragging
+                } else if (carousel.scrollLeft >= carousel.scrollWidth / 2) {
+                    carousel.scrollLeft = 0; // Jump to the start
+                    scrollLeft = carousel.scrollLeft - walk; // Adjust `scrollLeft` for smooth dragging
+                }
+            });
+
+            // Mouse up / leave event to stop drag
+            const stopDrag = () => {
+                isDragging = false;
+                scrollPosition = carousel.scrollLeft; // Update scrollPosition to current scrollLeft
+                isScrolling = true; // Resume auto-scroll
+                carousel.classList.remove("dragging"); // Allow selection after dragging
+            };
+            carousel.addEventListener("mouseup", stopDrag);
+            carousel.addEventListener("mouseleave", stopDrag);
+        });
+    </script>
+
+    <section>
+        <div class="newsletter">
+            <h3>Naujienlaiškis</h3>
+            <p>Nepraleisk KU svarbiausių naujienų,<br> įvykių ir renginių. </p>
+            <input type="email" placeholder="Įvesti el-paštą">
+        </div>
+    </section>
+{% endblock %}
